@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Кирилл Грант](https://up.htmlacademy.ru/javascript/28/user/2305439).
-* Наставник: `Неизвестно`.
+* Наставник: Сергей `telegram: @sanqit (https://t.me/sanqit)`.
 
 ---
 

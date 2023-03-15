@@ -3,7 +3,7 @@ const isLengthString = function (someString, someNumber) {
   if (someString.length <= someNumber) {
     return true;
   }
-  false;
+  return false;
 };
 
 isLengthString('проверяемая строка', 20);
@@ -21,7 +21,7 @@ const isPalnidrom = function (someString) {
     .toLowerCase()
     .replaceAll(' ', '');
   for (let i = lowSomeString.length - 1; i >= 0; i--) {
-    reverseSomeString += lowSomeString.at(i);
+   let reverseSomeString += lowSomeString.at(i);
   }
   return lowSomeString === reverseSomeString;
 };

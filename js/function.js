@@ -20,8 +20,9 @@ const isPalnidrom = function (someString) {
   const lowSomeString = someString
     .toLowerCase()
     .replaceAll(' ', '');
+  let reverseSomeString = '';
   for (let i = lowSomeString.length - 1; i >= 0; i--) {
-   let reverseSomeString += lowSomeString.at(i);
+    reverseSomeString += lowSomeString.at(i);
   }
   return lowSomeString === reverseSomeString;
 };
@@ -66,9 +67,9 @@ extractNumber('сейчас 2023 год');
 //И возвращает исходную строку, дополненную указанными символами до заданной длины
 //Символы добавляются в начало строки. Если исходная строка превышает заданную длину, она не должна обрезаться
 //Если «добивка» слишком длинная, она обрезается с конца
-const myPadStart = function (string, minLength, pad){
+const myPadStart = function (string, minLength, pad) {
   const actualPad = minLength - string.length;
-  if (actualPad <= 0){
+  if (actualPad <= 0) {
     return string;
   }
   const tempPad = pad.slice(0, actualPad % pad.length);

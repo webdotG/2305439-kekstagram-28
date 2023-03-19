@@ -32,8 +32,15 @@ const generateLikes = createRandomIdFromRangeGenerator(15, 200);
 console.log('рандомное число generateLikes ', generateLikes());
 const generateCommentsAvatar = getRandomInteger(1, 6);
 console.log('рандомное число generateCommentsAvatar ', generateCommentsAvatar);
-const message = ['Всё отлично!', 'Всё Не отлично!'];
-console.log('коментарии :', message);
+const photoCommentsMessageArray = ['Всё отлично!', 'Всё Не отлично!'];
+console.log('коментарии :', photoCommentsMessageArray);
+const generateRandomCommetsMessage = photoCommentsMessageArray[getRandomInteger(0,photoCommentsMessageArray.length - 1)];//необязательно было делать так
+console.log('рандомный комментарий', generateRandomCommetsMessage);//но почему бы не сделать
+const nameAutorCommentsArray = ['Jul', 'Kir', 'Georg'];
+console.log('имена коментаторов ', nameAutorCommentsArray);
+const generateRandomNameAutorComments = nameAutorCommentsArray[getRandomInteger(0,nameAutorCommentsArray.length - 1)];
+console.log('рандомное имя' ,generateRandomNameAutorComments);
+
 const photoIdObj = {
   id: generatePhotoId(),
   url: `photos/${generateUrlId()}.jpg`,//??? почему тут скобки ${generateUrlId()}
@@ -42,6 +49,8 @@ const photoIdObj = {
   comments : {
     id: 0,
     avatar: `img/avatar-${generateCommentsAvatar}.svg`,//??? а тут нет ${generateCommentsAvatar}
+    message: generateRandomCommetsMessage,
+    name: '',
   },
 };
 console.log(photoIdObj);

@@ -5,9 +5,10 @@ function getRandomInteger(min, max) {
 
   return Math.floor(result);
 }
+
 console.log('рандомное число ', getRandomInteger(1, 25));
 
-function createRandomIdFromRangeGenerator (min, max) {
+function createRandomIdFromRangeGenerator(min, max) {
   const previousValues = [];
 
   return function () {
@@ -34,24 +35,55 @@ const generateCommentsAvatar = getRandomInteger(1, 6);
 console.log('рандомное число generateCommentsAvatar ', generateCommentsAvatar);
 const photoCommentsMessageArray = ['Всё отлично!', 'Всё Не отлично!'];
 console.log('коментарии :', photoCommentsMessageArray);
-const generateRandomCommetsMessage = photoCommentsMessageArray[getRandomInteger(0,photoCommentsMessageArray.length - 1)];//необязательно было делать так
+const generateRandomCommetsMessage = photoCommentsMessageArray[getRandomInteger(0, photoCommentsMessageArray.length - 1)];//необязательно было делать так
 console.log('рандомный комментарий', generateRandomCommetsMessage);//но почему бы не сделать
 const nameAutorCommentsArray = ['Jul', 'Kir', 'Georg'];
 console.log('имена коментаторов ', nameAutorCommentsArray);
-const generateRandomNameAutorComments = nameAutorCommentsArray[getRandomInteger(0,nameAutorCommentsArray.length - 1)];
-console.log('рандомное имя' ,generateRandomNameAutorComments);
+const generateRandomNameAutorComments = nameAutorCommentsArray[getRandomInteger(0, nameAutorCommentsArray.length - 1)];
+console.log('рандомное имя', generateRandomNameAutorComments);
 
-const photoIdObj = {
+let photoIdObj = {
   id: generatePhotoId(),
   url: `photos/${generateUrlId()}.jpg`,//??? почему тут скобки ${generateUrlId()}
   description: 'someDescription',
   likes: generateLikes(),
-  comments : {
+  comments: {
     id: 0,
     avatar: `img/avatar-${generateCommentsAvatar}.svg`,//??? а тут нет ${generateCommentsAvatar}
     message: generateRandomCommetsMessage,
-    name: '',
+    name: generateRandomNameAutorComments,
   },
 };
 console.log(photoIdObj);
 console.log(photoIdObj.comments.id);
+
+let photoCommentsIdCounter = 0;
+
+const createPhoto = () => ({
+  id: generatePhotoId(),
+  url: `photos/${generateUrlId()}.jpg`,//??? почему тут скобки ${generateUrlId()}
+  description: 'someDescription',
+  likes: generateLikes(),
+  comments: [
+    {
+      id: photoCommentsIdCounter++,
+      avatar: `img/avatar-${generateCommentsAvatar}.svg`,//??? а тут нет ${generateCommentsAvatar}
+      message: generateRandomCommetsMessage,
+      name: generateRandomNameAutorComments,
+    },
+  ]
+});
+
+
+console.log(createPhoto().comments.includes());
+const photosCount = 25;
+const photosList = Array.from({length: photosCount}, createPhoto);
+console.log(photosList);
+/*
+let commentsIdArray = [];
+let commentsIdCounter = () => {
+  commentsIdArray[i] += commentsIdArray
+};
+console.log(commentsIdArray);
+console.log(commentsIdCounter());
+*/

@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomArrayElement, createIdGenerator} from './get-random-counter.js';
+import {getRandomInteger, getRandomArrayElement, createIdGenerator} from './utils.js';
 
 const PICTURE_COUNT = 25;
 const AVATAR_COUNT = 6;

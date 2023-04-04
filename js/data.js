@@ -38,7 +38,7 @@ const createComment = () => (
   }
 );
 
-const createPictrue = (index) => (
+const createPicture = (index) => (
   {
     id: index,
     url: `photos/${index}.jpg`,
@@ -50,7 +50,7 @@ const createPictrue = (index) => (
 
 const getPictures = () =>
   Array.from({length: PICTURE_COUNT}, (_, pictureIndex) =>
-    createPictrue(pictureIndex + 1)
+    createPicture(pictureIndex + 1)
   );
 
 getPictures();

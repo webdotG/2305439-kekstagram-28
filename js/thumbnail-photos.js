@@ -1,3 +1,5 @@
+import {showBigPicture} from './big-picture.js';
+
 const thumbnailTemplate = document.querySelector('#picture').content.querySelector('.picture');
 const container = document.querySelector('.pictures');
 
@@ -10,6 +12,10 @@ const createThumbnail = (picture) => {
   thumbnail.querySelector('.picture__img').alt = picture.description;
   thumbnail.querySelector('.picture__comments').textContent = picture.comments.length;
   thumbnail.querySelector('.picture__likes').textContent = picture.likes;
+
+  thumbnail.addEventListener('click', () => {
+    showBigPicture(picture);
+  });
 
   return thumbnail;
 };

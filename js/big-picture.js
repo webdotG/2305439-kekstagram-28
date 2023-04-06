@@ -34,17 +34,16 @@ const showComments = (comments) => {//функция для показа ком�
   if (totalCommentsCount === 0) {//если общее число коментов равно 0
     socialCommentCount.classList.add('hidden');//прячу счётчик
     showMoreCommentsButton.classList.add('hidden');//прячу кнопку показать коменты
-    window.showMoreCommentsButton = showMoreCommentsButton;
   } else {
-    socialCommentCount.classList.remove('hidden');//удаляю класс хиден
-    showMoreCommentsButton.classList.remove('hidden');//удаляю класс хиден
+    socialCommentCount.classList.remove('hidden');//показываю счетчик коментов
+    showMoreCommentsButton.classList.remove('hidden');//показываю кнопку для загрузеи коментов
 
     totalCommentsCountElement.textContent = totalCommentsCount;//в блоке бигпикчер нахожу селектор счётчик коментов и меняю его контент на число длину массива коментариев
     let shownComments = 0;//счетчик показаных комментариев
 
     //функция для показа комментов по очереди
     const showCommentsPartition = () => {
-      const commentsForShow = comments.slice(shownComments, shownComments + PARTITION_SIZE);//иду по массиву и вырезаю начало показанныч коментов и конец массива показанные +5 в итоге остаются как раз 5 которые показываются
+      const commentsForShow = comments.slice(shownComments, shownComments + PARTITION_SIZE);//вырезаю из массиваначало показанныч коментов и конец массива показанные +5 в итоге остаются как раз 5 которые показываются
       shownComments += commentsForShow.length;//счетчик сколько всего коментов
       shownCommentsCountElement.textContent = shownComments;//вставляю в счетчик цифру показаных коментов
       //создаю фрагмент

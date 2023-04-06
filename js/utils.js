@@ -16,7 +16,6 @@ const createIdGenerator = () =>{
   };
 };
 
-
 const isEscapeKey = (evt) => evt.key === 'Escape';//проверяю событие на нажатие esc
 
 export {getRandomInteger, getRandomArrayElement, createIdGenerator, isEscapeKey};

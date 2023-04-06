@@ -1,4 +1,4 @@
-import { isEscapeKey } from './utils.js';
+import {isEscapeKey} from './utils.js';
 
 const bigPicture = document.querySelector('.big-picture'); //нахожу блок для отображения большой фотки
 const commentTemplateElement = document.querySelector('#comment').content.querySelector('.social__comment');//нахожу блок c шаблоном коментария и в его контенте нахожу блок с коментом
@@ -19,7 +19,7 @@ const onDocumentKeydown = (evt) => {//отловлиаю событие на д�
 };
 
 //функция для создания комментария
-const createCommentElement = (comment) => {//создаю функцию для создания коментариев аргументом передаю параметр комент взятый из фнкции криейт пикчер
+const createCommentElement = (comment) => {//создаю функцию для создания коментариев аргументом передаю параметр комент взятый
   const commentElement = commentTemplateElement.cloneNode(true);//создаю дом элемент клонируя всё содиржимое из шаблона
   commentElement.querySelector('.social__picture').src = comment.avatar;//в элемнте нахожу селектор и присваеваю его src новое значение обьекта комент по ключу аватар
   commentElement.querySelector('.social__picture').alt = comment.name;//в элемнте нахожу селектор и присваеваю его alt новое значение обьекта комент по ключу name
@@ -30,10 +30,10 @@ const createCommentElement = (comment) => {//создаю функцию для 
 //функция для показа комментов
 const showComments = (comments) => {//функция для показа комментов
   socialCommentsElement.innerHTML = '';//обнуляю кго содердимое
-  const totalCommentsCount = comments.length;
-  if (totalCommentsCount === 0) {
-    socialCommentCount.classList.add('hidden');
-    showMoreCommentsButton.classList.add('hidden');
+  const totalCommentsCount = comments.length;//показывает общее число коментариев
+  if (totalCommentsCount === 0) {//если общее число коментов равно 0
+    socialCommentCount.classList.add('hidden');//прячу счётчик
+    showMoreCommentsButton.classList.add('hidden');//прячу кнопку показать коменты
     window.showMoreCommentsButton = showMoreCommentsButton;
   } else {
     socialCommentCount.classList.remove('hidden');//удаляю класс хиден
@@ -41,25 +41,27 @@ const showComments = (comments) => {//функция для показа ком�
 
     totalCommentsCountElement.textContent = totalCommentsCount;//в блоке бигпикчер нахожу селектор счётчик коментов и меняю его контент на число длину массива коментариев
     let shownComments = 0;//счетчик показаных комментариев
+
     //функция для показа комментов по очереди
     const showCommentsPartition = () => {
-      const commentsForShow = comments.slice(shownComments, shownComments + PARTITION_SIZE);//прохожусь по массиву комментс и вырезаю из него показанные коментарии и еще 5?
-      shownComments += commentsForShow.length;
-      shownCommentsCountElement.textContent = shownComments;
+      const commentsForShow = comments.slice(shownComments, shownComments + PARTITION_SIZE);//иду по массиву и вырезаю начало показанныч коментов и конец массива показанные +5 в итоге остаются как раз 5 которые показываются
+      shownComments += commentsForShow.length;//счетчик сколько всего коментов
+      shownCommentsCountElement.textContent = shownComments;//вставляю в счетчик цифру показаных коментов
+      //создаю фрагмент
       const fragment = document.createDocumentFragment();//создаю контейнер фрагмент
-      commentsForShow.forEach((comment) => {//иду по всем коментариям из массива коментс
-        const commentElement = createCommentElement(comment);//
-        fragment.append(commentElement);//
-        //косячу со вставкой новых 5и коментов
+      commentsForShow.forEach((comment) => {//иду по массиву из уже 5и вырезанных коментариев на каждой итерации получаю один обьект коментария(comment)
+        const commentElement = createCommentElement(comment);//в переменную засовыаю созданный дом элемент фцнкцией криейт которя запускается запускается пять раз так как мы передали туда 5 вырезанных коментов
+        fragment.append(commentElement);//вставляю в фрагмент елементы
       });
-
-      socialCommentsElement.append(fragment);
-      if (shownComments >= totalCommentsCount) {
-        showMoreCommentsButton.classList.add('hidden');
-        showMoreCommentsButton.removeEventListener('click', showCommentsPartition)
+      //посылаю а лист коментариев фрагмент
+      socialCommentsElement.append(fragment);//вставляю в лист коментов фрагмент с дом элеметами
+      if (shownComments >= totalCommentsCount) {//если показанные комменты больше или равны массиву всех коментариев то
+        showMoreCommentsButton.classList.add('hidden');//прячу кнопку показать коментарии
+        showMoreCommentsButton.removeEventListener('click', showCommentsPartition);//удаляю обработчик клика и вызова функции показа порционно
       }
     };
 
+    //обработчик на клик по кнопке и запуск функции по показу порционно
     showMoreCommentsButton.addEventListener('click', showCommentsPartition);
     showCommentsPartition();
   }
@@ -88,4 +90,4 @@ closeBigPictureButton.addEventListener('click', () => {//
   closeBigPicture();
 });
 
-export { showBigPicture };
+export {showBigPicture};

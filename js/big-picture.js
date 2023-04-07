@@ -89,4 +89,4 @@ closeBigPictureButton.addEventListener('click', () => {//
   closeBigPicture();
 });
 
-export {showBigPicture};
+export {showBigPicture, onDocumentKeydown};

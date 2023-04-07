@@ -1,9 +1,17 @@
+import {onDocumentKeydown} from './big-picture.js';
+import {resetScale} from './scale.js';
+import {resetEffects} from './effect.js';
 
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;//регуляроное выражение для проверки символов
 const MAX_HASHTAG_COUNT = 5;
 const TAG_ERROR_TEXT = 'теги надо переписать правильно';
+const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
+const overlay = document.querySelector('.img-upload__overlay');
+const cancelButton = document.querySelector('#upload-cancel');
+const fileField = document.querySelector('#upload-file');
 const hashtagField = document.querySelector('.text__hashtags');
+const commentField = document.querySelector('.text__description');
 
 //инициализирую/подключаю пристин
 const pristine = new Pristine(form, {
@@ -11,6 +19,45 @@ const pristine = new Pristine(form, {
   errorTextParent: 'img-upload__field-wrapper',//элемент куда будет выводиться текст ошибки
   errorTextClass: 'img-upload__field-wrapper__error',//класс для стилизации вывода ошибки
 });
+
+//
+const showModal = () => {
+  overlay.classList.remove('.hidden');
+  body.classList.add('modal-open');
+  document.addEventListener('keydown', onDocumentKeydown);
+};
+
+//
+const hideModal = () => {
+  form.reset();
+  resetScale();
+  resetEffects();
+  pristine.reset();
+  overlay.classList.add('hidden');
+  body.classList.remove('modal-open');
+};
+
+//
+const isTextFieldFocused = () => {
+  document.activeElement === hashtagField || document.activeElement === commentField;
+
+  function onDocumentKeydown(evt) {
+    if (evt.key === 'Escape' && !isTextFieldFocused()) {
+      evt.preventDefault();
+      hideModal();
+    }
+  }
+};
+
+//
+const onCancelButtonClick = () => {
+  hideModal();
+};
+
+//
+const onFileInputChange = () => {
+  showModal();
+};
 
 //проверка на вводимые символы
 const isValidTag = (tag) => VALID_SIMBOLS.test(tag);//проверяю каждый тег с помощью регулярного выражения
@@ -41,8 +88,14 @@ pristine.addValidator(
   TAG_ERROR_TEXT//текст ошибки в данном проекте выводится для всех ошибок
 );
 
-//включаю валидацию формы при отправке
+//функция валидацию формы при отправке
 const onFormSubmit = (evt) => {
   evt.preventDefault();
   pristine.validate();
 };
+
+//
+fileField.addEventListener('change', onFileInputChange);
+cancelButton.addEventListener('click', onCancelButtonClick);
+form.addEventListener('submit', onFormSubmit);
+

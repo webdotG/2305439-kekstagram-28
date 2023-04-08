@@ -1,4 +1,3 @@
-import {onDocumentKeydown} from './big-picture.js';
 import {resetScale} from './scale.js';
 import {resetEffects} from './effect.js';
 
@@ -35,17 +34,18 @@ const hideModal = () => {
   pristine.reset();
   overlay.classList.add('hidden');
   body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
 };
 
 //
 const isTextFieldFocused = () => {
   document.activeElement === hashtagField || document.activeElement === commentField;
+};
 
-  function onDocumentKeydown(evt) {
-    if (evt.key === 'Escape' && !isTextFieldFocused()) {
-      evt.preventDefault();
-      hideModal();
-    }
+const onDocumentKeydown = (evt) => {//отловлиаю событие на документе
+  if (evt.key === 'Escape' && !isTextFieldFocused()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
+    evt.preventDefault();//убрать дефолтное поведение
+    hideModal();//вызвать функцию скрытьмодал
   }
 };
 
@@ -81,6 +81,7 @@ const validateTags = (value) => {//валью передайт сама прис
   return hasValidCount(tags) && hasUniqueTags(tags) && tags.every(isValidTag);//передаю массив тэг в три функции проверки
 };//     проверка на длину      на уникальность        прохожу по массиву тэгс и вызываю для каждого элемента функцию
 
+
 //добавляю валидатор методом встроеным в пристин
 pristine.addValidator(
   hashtagField,//поле валидации
@@ -95,7 +96,7 @@ const onFormSubmit = (evt) => {
 };
 
 //
+form.addEventListener('click', showModal);
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
 form.addEventListener('submit', onFormSubmit);
-

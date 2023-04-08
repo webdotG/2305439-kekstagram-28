@@ -96,7 +96,6 @@ const onFormSubmit = (evt) => {
 };
 
 //
-form.addEventListener('click', showModal);
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
 form.addEventListener('submit', onFormSubmit);

@@ -17,17 +17,31 @@ const pristine = new Pristine(form, {
   classTo: 'img-upload__field-wrapper',//элемент на который будут вешаться о правильно или не правильно заполненых полях
   errorTextParent: 'img-upload__field-wrapper',//элемент куда будет выводиться текст ошибки
   errorTextClass: 'img-upload__field-wrapper__error',//класс для стилизации вывода ошибки
+
 });
 
+const isTextFieldFocused = () => {
+  document.activeElement === hashtagField || document.activeElement === commentField;
+};
+
+
+const onDocumentKeydown = (evt) => {//отловлиаю событие на документе
+  if (evt.key === 'Escape' && !isTextFieldFocused()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
+    evt.preventDefault();//убрать дефолтное поведение
+    hideFormLoadImg();//вызвать функцию скрытьмодал
+  }
+};
+
+
 //
-const showModal = () => {
+const showFormLoadImg = () => {
   overlay.classList.remove('.hidden');
   body.classList.add('modal-open');
   document.addEventListener('keydown', onDocumentKeydown);
 };
 
 //
-const hideModal = () => {
+const hideFormLoadImg = () => {
   form.reset();
   resetScale();
   resetEffects();
@@ -38,25 +52,13 @@ const hideModal = () => {
 };
 
 //
-const isTextFieldFocused = () => {
-  document.activeElement === hashtagField || document.activeElement === commentField;
-};
-
-const onDocumentKeydown = (evt) => {//отловлиаю событие на документе
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
-    evt.preventDefault();//убрать дефолтное поведение
-    hideModal();//вызвать функцию скрытьмодал
-  }
-};
-
-//
 const onCancelButtonClick = () => {
-  hideModal();
+  hideFormLoadImg();
 };
 
 //
 const onFileInputChange = () => {
-  showModal();
+  showFormLoadImg();
 };
 
 //проверка на вводимые символы
@@ -73,7 +75,7 @@ const hasUniqueTags = (tags) => {
 };
 
 //функция для валидации
-const validateTags = (value) => {//валью передайт сама пристин
+const validateTags = (value) => {//валью передайт сама пристин это её встроенный первый параметр
   const tags = value//в массиве тэгс копятся хэштеги
     .trim()//обрезаю если есть лищние пробелы в начале или в конце
     .split(' ')//разделяю пробелом хэштеги
@@ -85,7 +87,7 @@ const validateTags = (value) => {//валью передайт сама прис
 //добавляю валидатор методом встроеным в пристин
 pristine.addValidator(
   hashtagField,//поле валидации
-  validateTags(),//функция которая будет валидировать
+  validateTags,//функция которая будет валидировать
   TAG_ERROR_TEXT//текст ошибки в данном проекте выводится для всех ошибок
 );
 
@@ -99,3 +101,5 @@ const onFormSubmit = (evt) => {
 fileField.addEventListener('change', onFileInputChange);
 cancelButton.addEventListener('click', onCancelButtonClick);
 form.addEventListener('submit', onFormSubmit);
+
+export {showFormLoadImg, hideFormLoadImg};

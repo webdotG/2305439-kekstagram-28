@@ -21,18 +21,8 @@ const pristine = new Pristine(form, {
 });
 
 //должна отменять поведение закрытия окна редактора если поле тегов или поле коментов в фокусе
-const isTextFieldFocused = () => {
-  document.activeElement === hashtagField || document.activeElement === commentField;
-  //эктив элемент показывает какой элемент сейчас в фокусе если это инпут загрузки фото или поле ввода коментария
-};
-
-//проверяет если событие нажатие клавиши = esc и поля НЕ в фокусе то прячу модалку редактора
-const onDocumentKeydown = (evt) => {//отловлиаю событие на документе
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
-    evt.preventDefault();//убрать дефолтное поведение
-    hideFormLoadImg();//вызвать функцию скрытьмодал
-  }
-};
+const isTextFieldFocused = () => document.activeElement === hashtagField || document.activeElement === commentField;
+//эктив элемент показывает какой элемент сейчас в фокусе если это инпут загрузки фото или поле ввода коментария;
 
 //функция показа модалки редоктирования и описания фото
 const showFormLoadImg = () => {
@@ -51,6 +41,15 @@ const hideFormLoadImg = () => {
   body.classList.remove('modal-open');//снимаю класс отвечающий за скрол
   document.removeEventListener('keydown', onDocumentKeydown);//снимаю обработчик
 };
+
+//проверяет если событие нажатие клавиши = esc и поля НЕ в фокусе то прячу модалку редактора
+function onDocumentKeydown (evt) {//отловлиаю событие на документе
+  if (evt.key === 'Escape' && !isTextFieldFocused()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
+    evt.preventDefault();//убрать дефолтное поведение
+    hideFormLoadImg();//вызвать функцию скрытьмодал
+  }
+}
+
 
 //функция при нажатии cancel бтн
 const onCancelButtonClick = () => {

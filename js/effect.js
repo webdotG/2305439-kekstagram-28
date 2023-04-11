@@ -17,7 +17,7 @@ const EFFECTS = [
   },
   {
     name: 'sepia',
-    style: 'seoia',
+    style: 'sepia',
     min: 0,
     max: 1,
     step: 0.1,
@@ -40,16 +40,8 @@ const EFFECTS = [
     unit: 'px',
   },
   {
-    name: 'none',
-    style: 'none',
-    min: 0,
-    max: 100,
-    step: 1,
-    unit: '',
-  },
-  {
     name: 'heat',
-    style: 'brightnes',
+    style: 'brightness',
     min: 1,
     max: 3,
     step: 0.1,
@@ -110,7 +102,7 @@ const onSliderUpdate = () => {
   const sliderValue = sliderElement.noUiSlider.get();
   imageElement.style.filter = isDefault()
     ? DEFAULT_EFFECTS.style
-    : `${chosenEffect.style} (${sliderValue}${chosenEffect.unit})`;
+    : `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
   effectLevelElement.value = sliderValue;
 };
 

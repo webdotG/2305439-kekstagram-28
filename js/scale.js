@@ -1,13 +1,12 @@
+const SCALE_STEP = 25;//один шаг равен 25
+const MIN_SCALE = 25;//минимальное значение зума
+const MAX_SCALE = 100;//максимальное значение зума
+const DEFAULT_SCALE = 100;//дефолтный размер
 
-const SCALE_STEP = 25;
-const MIN_SCALE = 25;
-const MAX_SCALE = 100;
-const DEFAULT_SCALE = 100;
-
-const smallerButtonElement = document.querySelector('.scale__control--smaller');
-const biggerButtonElement = document.querySelector('.scale__control--bigger');
-const scaleInputElement = document.querySelector('.scale__control--value');
-const imageElement = document.querySelector('.img-upload__preview img');
+const smallerButtonElement = document.querySelector('.scale__control--smaller');//нахожу кнопку уменьщения размера
+const biggerButtonElement = document.querySelector('.scale__control--bigger');//нахожу кнопку увеличения размера
+const scaleInputElement = document.querySelector('.scale__control--value');//нахожу инпут показывающий значение нынешнего размера
+const imageElement = document.querySelector('.img-upload__preview img');//нахожу картинку из блока предварительного просмотра
 
 //функция изменения размера фото
 const scaleImage = (value) => {//принимает в сеья какое-то значение
@@ -15,7 +14,7 @@ const scaleImage = (value) => {//принимает в сеья какое-то 
   scaleInputElement.value = `${value}%`;//дом элементу в значение взлью передаю передаю результат вычислений и знак процента
 };
 
-//
+//функция уеньщения фото при нажатии
 const onSmallerButtonClick = () => {
   const currentValue = parseInt(scaleInputElement.value, 10);//перевожу строку в число
   let newValue = currentValue - SCALE_STEP;

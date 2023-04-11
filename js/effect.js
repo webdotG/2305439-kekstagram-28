@@ -57,8 +57,8 @@ const EFFECTS = [
   },
 ];
 
-const DEFAULT_EFFECTS = EFFECTS[0];
-let chosenEffect = DEFAULT_EFFECTS;
+const DEFAULT_EFFECTS = EFFECTS[0];//заношу в переменную дефолтные настройки
+let chosenEffect = DEFAULT_EFFECTS;//переменная показывающая выбранный эфект первичные настройки равны дефолтным
 
 const imageElement = document.querySelector('.img-upload__preview img');
 const effectsElement = document.querySelector('.effects');
@@ -66,12 +66,14 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const sliderContainerElement = document.querySelector('.img-upload__effect-level');
 const effectLevelElement = document.querySelector('.effect-level__value');
 
-const isDefault = () => chosenEffect === DEFAULT_EFFECTS
+const isDefault = () => chosenEffect === DEFAULT_EFFECTS;
 
+//функция показывающая слайдер
 const showSlider = () => {
   sliderContainerElement.classList.remove('hidden');
-}
+};
 
+//функция прячущая слайдер
 const hideSlider = () => {
   sliderContainerElement.classList.add('hidden');
 };
@@ -90,44 +92,48 @@ const updateSlider = () => {
     hideSlider();
   } else {
     showSlider();
-  };
+  }
 };
 
-const onEffectsChange = (evt) => {
-  if (!evt.target.classList.contains('effects__radio')) {
+
+//функция оброботчик
+const onEffectsChange = (evt) => {//вешаю обработчик на весь контейнер с эфектами и передаю параметром какое-то действие
+  if (!evt.target.classList.contains('effects__radio')) {//
     return;
   }
-  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);
+  chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value);//в массиве ефектс ищу обьект имя которого равно вэлью выьранного эфекта и заношу обьект в переменную выбранного эфекта
   imageElement.className = `effects__preview--${chosenEffect.name}`;
-  updateSlider;
+  updateSlider();
 };
 
 const onSliderUpdate = () => {
   const sliderValue = sliderElement.noUiSlider.get();
-  imageElement.style.filter = isDefault();
-  DEFAULT_EFFECTS.style = `${chosenEffect.style}(${sliderValue}${chosenEffect.unit})`;
+  imageElement.style.filter = isDefault()
+    ? DEFAULT_EFFECTS.style
+    : `${chosenEffect.style} (${sliderValue}${chosenEffect.unit})`;
   effectLevelElement.value = sliderValue;
 };
 
 const resetEffects = () => {
   chosenEffect = DEFAULT_EFFECTS;
-  updateSlider;
+  updateSlider();
 };
 
-noUiSlider.create(sliderElement, {
+//создаю слайдер
+window.noUiSlider.create(sliderElement, {//аргументом выступает элемент которому надо передать параметры слайдера
   range: {
-    min: DEFAULT_EFFECTS.min,
-    max: DEFAULT_EFFECTS.max,
+    min: DEFAULT_EFFECTS.min,//передаю значение позиции слайдера по дефолту
+    max: DEFAULT_EFFECTS.max,//передаю значение позиции слайдера по дефолту
   },
-  start: DEFAULT_EFFECTS.max,
-  step: DEFAULT_EFFECTS.step,
+  start: DEFAULT_EFFECTS.max,//передаю значение шага слайдера
+  step: DEFAULT_EFFECTS.step,//передаю значение шага слайдера
   connect: 'lower',
 });
 
-hideSlider();
+hideSlider();//по дефолту прячу слайдер
 
-effectLevelElement.addEventListener('change', onEffectsChange);
+effectsElement.addEventListener('change', onEffectsChange);
 sliderElement.noUiSlider.on('update', onSliderUpdate);
 
 
-export {resetEffects};
+export {resetEffects};//экспортирую для скрытия модалки

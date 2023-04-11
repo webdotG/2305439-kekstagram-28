@@ -97,9 +97,12 @@ const onFormSubmit = (evt) => {
   evt.preventDefault();
 };
 
-//
-fileField.addEventListener('change', onFileInputChange);//проверяю событие на изменение "состояния" инпута
-cancelButton.addEventListener('click', onCancelButtonClick);//отлавливаю клик по кнопке отменить и закрываю модалку сбрасывая настройки
-form.addEventListener('submit', onFormSubmit);//отлавливаю событие отправки
 
-export {showFormLoadImg, hideFormLoadImg};
+const prepareUploadForm = () => {
+  fileField.addEventListener('change', onFileInputChange);//проверяю событие на изменение "состояния" инпута
+  cancelButton.addEventListener('click', onCancelButtonClick);//отлавливаю клик по кнопке отменить и закрываю модалку сбрасывая настройки
+  form.addEventListener('submit', onFormSubmit);//отлавливаю событие отправки
+  onDocumentKeydown();
+};
+
+export {prepareUploadForm};

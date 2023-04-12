@@ -3,6 +3,7 @@ import {resetEffects} from './effect.js';
 import {sendData} from './api.js';
 import {openSuccessModal, openErrorModal} from './upload-message.js';
 import {getTypeMessage} from './upload-message.js';
+import {isEscapeKey} from './utils.js';
 
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;//регуляроное выражение для проверки символов
 const MAX_HASHTAG_COUNT = 5;
@@ -53,7 +54,7 @@ const hideFormLoadImg = () => {
 
 //проверяет если событие нажатие клавиши = esc и поля НЕ в фокусе то прячу модалку редактора
 function onDocumentKeydown (evt) {//отловлиаю событие на документе
-  if (evt.key === 'Escape' && !isTextFieldFocused() && !getTypeMessage()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
+  if (isEscapeKey() && !isTextFieldFocused() && !getTypeMessage()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
     evt.preventDefault();//убрать дефолтное поведение
     hideFormLoadImg();//вызвать функцию скрытьмодал
   }
@@ -136,7 +137,6 @@ const prepareUploadForm = () => {
   fileField.addEventListener('change', onFileInputChange);//проверяю событие на изменение "состояния" инпута
   cancelButton.addEventListener('click', onCancelButtonClick);//отлавливаю клик по кнопке отменить и закрываю модалку сбрасывая настройки
   form.addEventListener('submit', onFormSubmit);//отлавливаю событие отправки
-  onDocumentKeydown();
 };
 
 export {prepareUploadForm, onFormSubmit, hideFormLoadImg};

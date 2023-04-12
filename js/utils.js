@@ -59,7 +59,5 @@ const sortRandomly = () => Math.random() - 0.5;
 
 const sortByComments = (a, b) => b.comments.length - a.comments.length;
 
-
-
 export {sortRandomly, sortByComments,getRandomInteger, getRandomArrayElement, createIdGenerator, isEscapeKey, showAlert, debounce, removeElement};
 

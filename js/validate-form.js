@@ -115,7 +115,6 @@ const unblockSubmitButton = () => {
 //функция валидацию формы при отправке
 const onFormSubmit = (evt) => {
   pristine.validate();
-  evt.preventDefault();
 
   // ! проверка если валидная форма то получаю данные с сервера
   const isValid = pristine.validate();
@@ -140,4 +139,4 @@ const prepareUploadForm = () => {
   onDocumentKeydown();
 };
 
-export {prepareUploadForm};
+export {prepareUploadForm, onFormSubmit, hideFormLoadImg};

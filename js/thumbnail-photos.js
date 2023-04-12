@@ -20,6 +20,18 @@ const createThumbnail = (picture) => {
   return thumbnail;
 };
 
+let handleThumbnailClick = null;
+
+const onPictureContainerClick = (evt) => {
+  const thumbnail = evt.target.closest('.picture');
+  if (thumbnail === null) {
+    return;
+  }
+
+  handleThumbnailClick(Number(thumbnail.dataset.id));
+};
+
+
 const renderThumbnails = (pictures) => {
 
   const fragment = document.createDocumentFragment();
@@ -27,9 +39,13 @@ const renderThumbnails = (pictures) => {
     const thumbnail = createThumbnail(picture);
     fragment.append(thumbnail);
   });
-
+  container.addEventListener('click', onPictureContainerClick);
   container.append(fragment);
 };
 
-export {renderThumbnails};
+const setThumbnailClickHandler = (callback) => {
+  handleThumbnailClick = callback;
+};
+
+export {renderThumbnails, setThumbnailClickHandler};
 

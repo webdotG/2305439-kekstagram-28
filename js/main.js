@@ -1,6 +1,27 @@
-import {getPictures} from './data.js';
-import {renderThumbnails} from './thumbnail-photos.js';
-import {showFormLoadImg, hideFormLoadImg} from './validate-form.js';
+import {renderThumbnails, setThumbnailClickHandler} from './thumbnail-photos.js';
+import {onFormSubmit, hideFormLoadImg} from './validate-form.js';
+import {getData} from './api.js';
+import {showAlert} from './utils.js';
+import {showBigPicture} from './big-picture.js';
+import {showFilters, setFilterChange} from './filter.js';
 
-const pictures = getPictures();
-renderThumbnails(pictures);
+
+getData()
+  .then((photos) => {
+    const onThumbnailClick = (photoId) => {
+      const photo = photos.find(({id}) => id === photoId);
+
+      showBigPicture(photo);
+    };
+
+    renderThumbnails(photos);
+    setThumbnailClickHandler(onThumbnailClick);
+    setFilterChange(photos);
+  })
+  .catch((err) => {
+    showAlert(err.message);
+  });
+
+onFormSubmit(hideFormLoadImg);
+showFilters();
+

@@ -1,5 +1,8 @@
 import {resetScale} from './scale.js';
 import {resetEffects} from './effect.js';
+import {sendData} from './api.js';
+import {openSuccessModal, openErrorModal} from './upload-message.js';
+import {getTypeMessage} from './upload-message.js';
 
 const VALID_SIMBOLS = /^#[a-zа-яё0-9]{1,19}$/i;//регуляроное выражение для проверки символов
 const MAX_HASHTAG_COUNT = 5;
@@ -11,6 +14,12 @@ const cancelButton = document.querySelector('#upload-cancel');
 const fileField = document.querySelector('#upload-file');
 const hashtagField = document.querySelector('.text__hashtags');
 const commentField = document.querySelector('.text__description');
+const submitButton = document.querySelector('.img-upload__submit');
+
+const SubmitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
 
 //инициализирую/подключаю пристин
 const pristine = new Pristine(form, {
@@ -44,7 +53,7 @@ const hideFormLoadImg = () => {
 
 //проверяет если событие нажатие клавиши = esc и поля НЕ в фокусе то прячу модалку редактора
 function onDocumentKeydown (evt) {//отловлиаю событие на документе
-  if (evt.key === 'Escape' && !isTextFieldFocused()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
+  if (evt.key === 'Escape' && !isTextFieldFocused() && !getTypeMessage()) {//проверяю условие если событие это нажатие кнопки esc и если одно из полей ввода не в фокусе
     evt.preventDefault();//убрать дефолтное поведение
     hideFormLoadImg();//вызвать функцию скрытьмодал
   }
@@ -91,15 +100,44 @@ pristine.addValidator(
   TAG_ERROR_TEXT//текст ошибки в данном проекте выводится для всех ошибок
 );
 
+
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = SubmitButtonText.SENDING;
+};
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = SubmitButtonText.IDLE;
+};
+
+
 //функция валидацию формы при отправке
 const onFormSubmit = (evt) => {
   pristine.validate();
   evt.preventDefault();
+
+  // ! проверка если валидная форма то получаю данные с сервера
+  const isValid = pristine.validate();
+  if (isValid) {
+    blockSubmitButton();
+    sendData(new FormData(evt.target))
+      .then(() => {
+        openSuccessModal();
+        hideFormLoadImg();
+      })
+      .catch(() => {
+        openErrorModal();
+      })
+      .finally(unblockSubmitButton);
+  }
 };
 
-//
-fileField.addEventListener('change', onFileInputChange);//проверяю событие на изменение "состояния" инпута
-cancelButton.addEventListener('click', onCancelButtonClick);//отлавливаю клик по кнопке отменить и закрываю модалку сбрасывая настройки
-form.addEventListener('submit', onFormSubmit);//отлавливаю событие отправки
+const prepareUploadForm = () => {
+  fileField.addEventListener('change', onFileInputChange);//проверяю событие на изменение "состояния" инпута
+  cancelButton.addEventListener('click', onCancelButtonClick);//отлавливаю клик по кнопке отменить и закрываю модалку сбрасывая настройки
+  form.addEventListener('submit', onFormSubmit);//отлавливаю событие отправки
+  onDocumentKeydown();
+};
 
-export {showFormLoadImg, hideFormLoadImg};
+export {prepareUploadForm};

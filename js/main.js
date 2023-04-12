@@ -1,5 +1,5 @@
 import {renderThumbnails, setThumbnailClickHandler} from './thumbnail-photos.js';
-import {onFormSubmit, hideFormLoadImg} from './validate-form.js';
+import { prepareUploadForm,onFormSubmit, hideFormLoadImg} from './validate-form.js';
 import {getData} from './api.js';
 import {showAlert} from './utils.js';
 import {showBigPicture} from './big-picture.js';
@@ -22,6 +22,6 @@ getData()
     showAlert(err.message);
   });
 
-onFormSubmit(hideFormLoadImg);
+prepareUploadForm();
 showFilters();
 
